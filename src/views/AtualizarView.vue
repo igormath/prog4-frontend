@@ -1,51 +1,51 @@
 <script setup>
-    import Header from '../components/Header.vue';
-    import Footer from '@/components/Footer.vue';
-    
-    import { ref } from 'vue';
-    import {onMounted} from "vue";
-    import { getProducts } from "../services/getProduct.js";
-    import { putProduct } from "../services/putProduct.js";
+import Header from '../components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
-    const products = ref([]);
-    const selected = ref();
-    const productName = ref();
-    const productPrice = ref();
-    const isUpdateOk = ref(false);
+import { ref } from 'vue';
+import {onMounted} from "vue";
+import { getProducts } from "../services/getProduct.js";
+import { putProduct } from "../services/putProduct.js";
 
-    const handleGetProducts = async () => {
-        try {
-            products.value = await getProducts();
-        } catch (e) {
-            alert(e);
-        }
+const products = ref([]);
+const selected = ref();
+const productName = ref();
+const productPrice = ref();
+const isUpdateOk = ref(false);
+
+const handleGetProducts = async () => {
+    try {
+        products.value = await getProducts();
+    } catch (e) {
+        alert(e);
     }
+}
 
-    const handleOptionChange = () => {
-        let chosenProduct = products.value.filter(product => {
-            return product.id === selected.value;
-        })
-
-        productName.value = chosenProduct[0].name;
-        productPrice.value = chosenProduct[0].price;
-    }
-
-    const handleUpdateSubmit = async () => {
-        const res = await putProduct(selected.value, productName.value, productPrice.value);
-        if (res.status === 200){
-            products.value.forEach(product => {
-                if (product.id === selected.value){
-                    product.name = productName.value
-                    product.price = productPrice.value
-                }
-            });
-            isUpdateOk.value = true;
-        }
-    }
-
-    onMounted(() => {
-        handleGetProducts();
+const handleOptionChange = () => {
+    let chosenProduct = products.value.filter(product => {
+        return product.id === selected.value;
     })
+
+    productName.value = chosenProduct[0].name;
+    productPrice.value = chosenProduct[0].price;
+}
+
+const handleUpdateSubmit = async () => {
+    const res = await putProduct(selected.value, productName.value, productPrice.value);
+    if (res.status === 200){
+        products.value.forEach(product => {
+            if (product.id === selected.value){
+                product.name = productName.value
+                product.price = productPrice.value
+            }
+        });
+        isUpdateOk.value = true;
+    }
+}
+
+onMounted(() => {
+    handleGetProducts();
+})
 </script>
 
 <template>

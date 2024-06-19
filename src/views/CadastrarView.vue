@@ -1,24 +1,24 @@
 <script setup>
-    import Header from '../components/Header.vue';
-    import Footer from '@/components/Footer.vue';
+import Header from '../components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
-    import { postProduct } from '@/services/postProduct';
-    import { ref } from 'vue';
+import { postProduct } from '@/services/postProduct';
+import { ref } from 'vue';
 
-    const name = ref();
-    const price = ref();
-    const isProductCreated = ref(false);
+const name = ref();
+const price = ref();
+const isProductCreated = ref(false);
 
-    const handleCreateProduct = async () => {
-        try{
-            const response = await postProduct(name.value, price.value)
-            if (response.status === 201){
-                isProductCreated.value = true;
-            }
-        }catch (e){
-            alert(e)
+const handleCreateProduct = async () => {
+    try{
+        const response = await postProduct(name.value, price.value)
+        if (response.status === 201){
+            isProductCreated.value = true;
         }
+    }catch (e){
+        alert(e)
     }
+}
 </script>
 
 <template>

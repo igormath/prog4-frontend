@@ -1,24 +1,24 @@
 <script setup>
-    import Header from '../components/Header.vue';
-    import Footer from '@/components/Footer.vue';
+import Header from '../components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
-    import { getProducts } from '@/services/getProduct';
-    import { deleteProduct } from '@/services/deleteProduct';
-    import { onMounted, ref } from 'vue';
+import { getProducts } from '@/services/getProduct';
+import { deleteProduct } from '@/services/deleteProduct';
+import { onMounted, ref } from 'vue';
 
-    const products = ref([]);
-    const selected = ref(null);
-    const isDeleteOk = ref(false);
+const products = ref([]);
+const selected = ref(null);
+const isDeleteOk = ref(false);
 
-    const handleGetProducts = async () => {
+const handleGetProducts = async () => {
     try{
         products.value = await getProducts();
     }catch(e){
         alert(e);
     }
-    }
+}
 
-    const handleDeleteSubmit = async () => {
+const handleDeleteSubmit = async () => {
     const response = await deleteProduct(selected.value);
     if (response.status === 200){
         const index = products.value.findIndex(element => element.id === selected.value);
@@ -27,11 +27,11 @@
         }
         isDeleteOk.value = true;
     }
-    }
+}
 
-    onMounted(() => {
+onMounted(() => {
     handleGetProducts();
-    })
+})
 </script>
 
 <template>
